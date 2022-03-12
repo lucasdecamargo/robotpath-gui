@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.2">
+  <object class="tk.Toplevel" id="toplevel">
+    <property name="height">500</property>
+    <property name="resizable">none</property>
+    <property name="title" translatable="yes">Robot Path</property>
+    <property name="width">400</property>
+    <child>
+      <object class="tk.Frame" id="mainframe">
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="tk.Frame" id="controlFrame">
+            <property name="container">false</property>
+            <layout manager="pack">
+              <property name="side">bottom</property>
+            </layout>
+            <containerlayout manager="grid">
+              <property name="anchor">s</property>
+            </containerlayout>
+            <child>
+              <object class="tk.Button" id="bt_plan">
+                <property name="text" translatable="yes">Plan</property>
+                <bind sequence="&lt;ButtonRelease-1&gt;" handler="plan_callback" add="" />
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="padx">5</property>
+                  <property name="row">0</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Button" id="bt_clean">
+                <property name="text" translatable="yes">Clean</property>
+                <bind sequence="&lt;ButtonRelease-1&gt;" handler="clean_callback" add="" />
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Scale" id="sc_roll">
+                <property name="from_">0</property>
+                <property name="label" translatable="yes">Roll (°)</property>
+                <property name="length">180</property>
+                <property name="orient">horizontal</property>
+                <property name="resolution">0.5</property>
+                <property name="state">normal</property>
+                <property name="tickinterval">90</property>
+                <property name="to">360</property>
+                <property name="variable">double:var_roll</property>
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Scale" id="sc_pitch">
+                <property name="from_">0</property>
+                <property name="label" translatable="yes">Pitch (°)</property>
+                <property name="length">180</property>
+                <property name="orient">horizontal</property>
+                <property name="resolution">0.5</property>
+                <property name="state">normal</property>
+                <property name="tickinterval">90</property>
+                <property name="to">360</property>
+                <property name="variable">double:var_pitch</property>
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="row">1</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Scale" id="sc_yaw">
+                <property name="from_">0</property>
+                <property name="label" translatable="yes">Yaw (°)</property>
+                <property name="length">180</property>
+                <property name="orient">horizontal</property>
+                <property name="resolution">0.5</property>
+                <property name="state">normal</property>
+                <property name="tickinterval">90</property>
+                <property name="to">360</property>
+                <property name="variable">double:var_yaw</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="row">1</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Scale" id="sc_lenght">
+                <property name="from_">0</property>
+                <property name="label" translatable="yes">Lenght</property>
+                <property name="length">360</property>
+                <property name="orient">horizontal</property>
+                <property name="resolution">0.1</property>
+                <property name="showvalue">true</property>
+                <property name="state">normal</property>
+                <property name="tickinterval">0.1</property>
+                <property name="to">1</property>
+                <property name="variable">double:var_lenght</property>
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="columnspan">2</property>
+                  <property name="row">2</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Entry" id="et_lenght_multiplier">
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">1.0</property>
+                <property name="textvariable">double:var_lenght_multiplier</property>
+                <property name="validate">key</property>
+                <property name="validatecommand" type="command" cbtype="entry_validate" args="%P">lenght_multiplier_validate</property>
+                <property name="width">6</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="pady">20</property>
+                  <property name="row">2</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="lb_lenght_multiplier">
+                <property name="font">{Arial} 8 {}</property>
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">Lenght Multipl.</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="row">2</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="lb_status">
+                <property name="text" translatable="yes">Status:</property>
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                  <property name="sticky">e</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Entry" id="et_status">
+                <property name="state">readonly</property>
+                <property name="textvariable">string:var_status_msg</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Button" id="bt_draw_plane">
+                <property name="text" translatable="yes">Draw</property>
+                <bind sequence="&lt;ButtonRelease-1&gt;" handler="draw_plane_callback" add="" />
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="padx">65</property>
+                  <property name="row">0</property>
+                  <property name="sticky">n</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Scale" id="sc_interpol">
+                <property name="from_">0</property>
+                <property name="label" translatable="yes">Points Interpolation Fraction (%)</property>
+                <property name="length">360</property>
+                <property name="orient">horizontal</property>
+                <property name="resolution">1</property>
+                <property name="tickinterval">10</property>
+                <property name="to">100</property>
+                <property name="variable">double:var_interpol</property>
+                <bind sequence="&lt;ButtonRelease-1&gt;" handler="interpolation_fraction_callback" add="" />
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="columnspan">2</property>
+                  <property name="row">3</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="lb_npoints">
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">Number of Points</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="pady">15</property>
+                  <property name="row">3</property>
+                  <property name="sticky">nw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Entry" id="et_npoints">
+                <property name="state">readonly</property>
+                <property name="textvariable">int:var_npoints</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="pady">40</property>
+                  <property name="row">3</property>
+                  <property name="sticky">w</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="lb_canvas_lenght">
+                <property name="font">{Arial} 8 {}</property>
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">Canvas Lenght</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="columnspan">1</property>
+                  <property name="pady">20</property>
+                  <property name="row">2</property>
+                  <property name="sticky">sw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Entry" id="et_canvas_lenght">
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">4</property>
+                <property name="textvariable">int:var_canvas_lenght</property>
+                <property name="validate">key</property>
+                <property name="validatecommand" type="command" cbtype="entry_validate" args="%P">canvas_lenght_validate</property>
+                <property name="width">6</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="pady">0</property>
+                  <property name="row">2</property>
+                  <property name="sticky">sw</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Entry" id="et_eef_step">
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">0.1</property>
+                <property name="textvariable">double:var_eef_step</property>
+                <property name="validate">key</property>
+                <property name="validatecommand" type="command" cbtype="entry_validate" args="%P">lenght_multiplier_validate</property>
+                <property name="width">6</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="padx">30</property>
+                  <property name="pady">20</property>
+                  <property name="row">2</property>
+                  <property name="sticky">ne</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="lb_eef_step">
+                <property name="font">{Arial} 8 {}</property>
+                <property name="justify">left</property>
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">eef_step</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="padx">40</property>
+                  <property name="row">2</property>
+                  <property name="sticky">ne</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Entry" id="et_jump_thresh">
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">0.0</property>
+                <property name="textvariable">double:var_jump_thresh</property>
+                <property name="validate">key</property>
+                <property name="validatecommand" type="command" cbtype="entry_validate" args="%P">lenght_multiplier_validate</property>
+                <property name="width">6</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="padx">30</property>
+                  <property name="row">2</property>
+                  <property name="sticky">se</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="lb_jump_thresh">
+                <property name="font">{Arial} 8 {}</property>
+                <property name="justify">left</property>
+                <property name="state">normal</property>
+                <property name="text" translatable="yes">jump_thresh.</property>
+                <layout manager="grid">
+                  <property name="column">2</property>
+                  <property name="columnspan">1</property>
+                  <property name="padx">20</property>
+                  <property name="pady">22</property>
+                  <property name="row">2</property>
+                  <property name="sticky">se</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Frame" id="frame4">
+            <layout manager="pack">
+              <property name="side">top</property>
+            </layout>
+            <child>
+              <object class="tk.Canvas" id="canvas">
+                <property name="background">#ffffff</property>
+                <property name="borderwidth">1</property>
+                <property name="cursor">pencil</property>
+                <property name="height">400</property>
+                <property name="highlightbackground">#000000</property>
+                <property name="width">550</property>
+                <bind sequence="&lt;B1-Motion&gt;" handler="canvas_motion_callback" add="" />
+                <bind sequence="&lt;Button-1&gt;" handler="canvas_pressed_callback" add="" />
+                <bind sequence="&lt;ButtonRelease-1&gt;" handler="canvas_released_callback" add="" />
+                <layout manager="pack">
+                  <property name="pady">10</property>
+                  <property name="side">top</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
